@@ -6,27 +6,51 @@ namespace App\Models;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password'])]
-#[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
-    /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
+
+    protected $fillable = [
+        'nombre',
+        'role',
+        'email',
+        'password',
+        'estado'
+    ];
+
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+
+    public function compras()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->hasMany(Compra::class);
+    }
+
+
+    public function ventas()
+    {
+        return $this->hasMany(Venta::class);
+    }
+
+
+    public function movimientos()
+    {
+        return $this->hasMany(Movimiento::class);
+    }
+
+
+    public function notas()
+    {
+        return $this->hasMany(Nota::class);
     }
 }
