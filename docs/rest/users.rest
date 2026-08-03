@@ -1,0 +1,85 @@
+@token = 5|HWCbYkbWsIMSrRNsXTeBWgmeKp2zax8zwYlCWXuI34f03292
+
+
+### =====================================
+### Obtener todos los usuarios
+### GET /api/users
+### =====================================
+
+GET http://127.0.0.1:8000/api/users
+Accept: application/json
+Authorization: Bearer {{token}}
+
+
+### =====================================
+### Obtener un usuario por ID
+### GET /api/users/{id}
+### =====================================
+
+GET http://127.0.0.1:8000/api/users/1
+Accept: application/json
+Authorization: Bearer {{token}}
+
+
+### =====================================
+### Crear un usuario
+### POST /api/users
+### =====================================
+
+POST http://127.0.0.1:8000/api/users
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+{
+    "nombre": "Ana Maria",
+    "role": "admin",
+    "email": "ana@mail.com",
+    "password": "1234567890",
+    "estado": 1
+}
+
+
+### =====================================
+### Actualizar un usuario completo
+### PUT /api/users/{id}
+### =====================================
+
+PUT http://127.0.0.1:8000/api/users/1
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+{
+    "nombre": "Juan Perez Actualizado",
+    "role": "empleado",
+    "email": "juan_actualizado@mail.com",
+    "password": "987654321",
+    "estado": 0
+}
+
+
+### =====================================
+### Actualizar solo algunos campos
+### PUT /api/users/{id}
+### =====================================
+
+PUT http://127.0.0.1:8000/api/users/1
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+{
+    "nombre": "Juan Modificado",
+    "estado": 1
+}
+
+
+### =====================================
+### Eliminar un usuario
+### DELETE /api/users/{id}
+### =====================================
+
+DELETE http://127.0.0.1:8000/api/users/1
+Accept: application/json
+Authorization: Bearer {{token}}

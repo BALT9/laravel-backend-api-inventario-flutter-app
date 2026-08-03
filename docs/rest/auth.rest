@@ -1,0 +1,53 @@
+@token = 5|HWCbYkbWsIMSrRNsXTeBWgmeKp2zax8zwYlCWXuI34f03292
+
+
+### =====================================
+### LOGIN
+### POST /api/login
+### =====================================
+
+POST http://127.0.0.1:8000/api/login
+Content-Type: application/json
+Accept: application/json
+
+{
+    "email": "juan@mail.com",
+    "password": "1234567890"
+}
+
+
+### =====================================
+### PERFIL DEL USUARIO
+### GET /api/profile
+### =====================================
+
+GET http://127.0.0.1:8000/api/profile
+Accept: application/json
+Authorization: Bearer {{token}}
+
+
+### =====================================
+### CAMBIAR CONTRASEÑA
+### PUT /api/change-password
+### =====================================
+
+PUT http://127.0.0.1:8000/api/change-password
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+{
+    "current_password": "1234567890",
+    "new_password": "987654321",
+    "new_password_confirmation": "987654321"
+}
+
+
+### =====================================
+### LOGOUT
+### POST /api/logout
+### =====================================
+
+POST http://127.0.0.1:8000/api/logout
+Accept: application/json
+Authorization: Bearer {{token}}
