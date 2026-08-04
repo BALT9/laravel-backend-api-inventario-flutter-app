@@ -1,0 +1,87 @@
+@token = 6|LFaddttHVl6w35A8x42K46W6VliyTJ1UGC6VxPua94b01b90
+
+
+### =====================================
+### Obtener todas las categorías
+### GET /api/categorias
+### =====================================
+
+GET http://127.0.0.1:8000/api/categorias
+Accept: application/json
+Authorization: Bearer {{token}}
+
+
+### =====================================
+### Obtener una categoría por ID
+### GET /api/categorias/{id}
+### =====================================
+
+GET http://127.0.0.1:8000/api/categorias/1
+Accept: application/json
+Authorization: Bearer {{token}}
+
+
+### =====================================
+### Crear una categoría
+### POST /api/categorias
+### =====================================
+
+POST http://127.0.0.1:8000/api/categorias
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+{
+    "nombre": "Celulares",
+    "descripcion": "Celulares gama alta"
+}
+
+
+### =====================================
+### Actualizar una categoría completa
+### PUT /api/categorias/{id}
+### =====================================
+
+PUT http://127.0.0.1:8000/api/categorias/1
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+{
+    "nombre": "Bebidas Actualizadas",
+    "descripcion": "Bebidas gaseosas, jugos y agua"
+}
+
+
+### =====================================
+### Actualizar solo algunos campos
+### PUT /api/categorias/{id}
+### =====================================
+
+PUT http://127.0.0.1:8000/api/categorias/1
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+{
+    "descripcion": "Nueva descripción de la categoría"
+}
+
+
+### =====================================
+### Buscar categoría por nombre
+### GET /api/categorias-buscar?texto=
+### =====================================
+
+GET http://127.0.0.1:8000/api/categorias-buscar?texto=Bebidas
+Accept: application/json
+Authorization: Bearer {{token}}
+
+### =====================================
+### Eliminar una categoría
+### DELETE /api/categorias/{id}
+### =====================================
+
+DELETE http://127.0.0.1:8000/api/categorias/1
+Accept: application/json
+Authorization: Bearer {{token}}

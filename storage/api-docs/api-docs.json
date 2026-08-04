@@ -151,6 +151,213 @@
                 ]
             }
         },
+        "/api/categorias": {
+            "get": {
+                "tags": [
+                    "Categorías"
+                ],
+                "summary": "Obtener todas las categorías",
+                "operationId": "66bfb3e0bf7747700be142ec5329dfae",
+                "responses": {
+                    "200": {
+                        "description": "Lista de categorías"
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Categorías"
+                ],
+                "summary": "Crear categoría",
+                "operationId": "acace4e67a5f9bbaa41b456c95b2bd05",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre"
+                                ],
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Bebidas"
+                                    },
+                                    "descripcion": {
+                                        "type": "string",
+                                        "example": "Productos líquidos"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Categoría creada"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/categorias/{id}": {
+            "get": {
+                "tags": [
+                    "Categorías"
+                ],
+                "summary": "Obtener categoría por ID",
+                "operationId": "af067e125b5f9a1b1306d9e5c2a5867e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la categoría",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Categoría encontrada"
+                    },
+                    "404": {
+                        "description": "Categoría no encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Categorías"
+                ],
+                "summary": "Actualizar categoría",
+                "operationId": "3465ccc7d2520d34b4c457d4158ae6ac",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Electrónicos"
+                                    },
+                                    "descripcion": {
+                                        "type": "string",
+                                        "example": "Productos tecnológicos"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Categoría actualizada"
+                    },
+                    "404": {
+                        "description": "Categoría no encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Categorías"
+                ],
+                "summary": "Eliminar categoría",
+                "operationId": "a37893cb60d6b5ca9b1d6d23dbe83041",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Categoría eliminada"
+                    },
+                    "404": {
+                        "description": "Categoría no encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/categorias-buscar": {
+            "get": {
+                "tags": [
+                    "Categorías"
+                ],
+                "summary": "Buscar categorías por nombre",
+                "operationId": "158433b6ee9844913fc766c98bfa149a",
+                "parameters": [
+                    {
+                        "name": "texto",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Resultado de búsqueda"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/sucursales": {
             "get": {
                 "tags": [
@@ -548,6 +755,10 @@
         {
             "name": "Autenticación",
             "description": "Autenticación"
+        },
+        {
+            "name": "Categorías",
+            "description": "Categorías"
         },
         {
             "name": "Sucursales",

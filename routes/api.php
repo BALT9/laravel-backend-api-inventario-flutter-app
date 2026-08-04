@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\SucursalController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -39,4 +40,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/sucursales/{id}', [SucursalController::class, 'update']);
     Route::delete('/sucursales/{id}', [SucursalController::class, 'destroy']);
     Route::get('/sucursales-buscar', [SucursalController::class, 'buscar']);
+
+    // CRUD Categorías
+    Route::get('/categorias', [CategoriaController::class, 'index']);
+    Route::get('/categorias/{id}', [CategoriaController::class, 'show']);
+    Route::post('/categorias', [CategoriaController::class, 'store']);
+    Route::put('/categorias/{id}', [CategoriaController::class, 'update']);
+    Route::delete('/categorias/{id}', [CategoriaController::class, 'destroy']);
+    Route::get('/categorias-buscar', [CategoriaController::class, 'buscar']);
 });
