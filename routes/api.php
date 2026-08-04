@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SucursalController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -30,4 +31,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/users', [UserController::class, 'store']);
     Route::put('/users/{id}', [UserController::class, 'update']);
     Route::delete('/users/{id}', [UserController::class, 'destroy']);
+
+    // CRUD Sucursales
+    Route::get('/sucursales', [SucursalController::class, 'index']);
+    Route::get('/sucursales/{id}', [SucursalController::class, 'show']);
+    Route::post('/sucursales', [SucursalController::class, 'store']);
+    Route::put('/sucursales/{id}', [SucursalController::class, 'update']);
+    Route::delete('/sucursales/{id}', [SucursalController::class, 'destroy']);
+    Route::get('/sucursales-buscar', [SucursalController::class, 'buscar']);
 });

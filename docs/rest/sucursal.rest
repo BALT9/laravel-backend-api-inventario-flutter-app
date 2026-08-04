@@ -1,0 +1,96 @@
+@token = 6|LFaddttHVl6w35A8x42K46W6VliyTJ1UGC6VxPua94b01b90
+
+
+### =====================================
+### Obtener todas las sucursales
+### GET /api/sucursales
+### =====================================
+
+GET http://127.0.0.1:8000/api/sucursales
+Accept: application/json
+Authorization: Bearer {{token}}
+
+
+
+### =====================================
+### Obtener una sucursal por ID
+### GET /api/sucursales/{id}
+### =====================================
+
+GET http://127.0.0.1:8000/api/sucursales/1
+Accept: application/json
+Authorization: Bearer {{token}}
+
+
+
+### =====================================
+### Crear una sucursal
+### POST /api/sucursales
+### =====================================
+
+POST http://127.0.0.1:8000/api/sucursales
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+{
+    "nombre": "Sucursal del Este",
+    "direccion": "Av. America #123",
+    "telefono": "70012345"
+}
+
+
+
+### =====================================
+### Actualizar una sucursal completa
+### PUT /api/sucursales/{id}
+### =====================================
+
+PUT http://127.0.0.1:8000/api/sucursales/1
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+{
+    "nombre": "Sucursal Central Actualizada",
+    "direccion": "Calle Nueva #456",
+    "telefono": "71122334"
+}
+
+
+
+### =====================================
+### Actualizar solo algunos campos
+### PUT /api/sucursales/{id}
+### =====================================
+
+PUT http://127.0.0.1:8000/api/sucursales/1
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+{
+    "telefono": "72233445"
+}
+
+
+
+### =====================================
+### Buscar sucursal por nombre
+### GET /api/sucursales-buscar?texto=
+### =====================================
+
+GET http://127.0.0.1:8000/api/sucursales-buscar?texto=Central
+Accept: application/json
+Authorization: Bearer {{token}}
+
+
+
+### =====================================
+### Eliminar una sucursal
+### DELETE /api/sucursales/{id}
+### =====================================
+
+DELETE http://127.0.0.1:8000/api/sucursales/1
+Accept: application/json
+Authorization: Bearer {{token}}

@@ -151,6 +151,224 @@
                 ]
             }
         },
+        "/api/sucursales": {
+            "get": {
+                "tags": [
+                    "Sucursales"
+                ],
+                "summary": "Obtener todas las sucursales",
+                "operationId": "408211be2806cd0c1d2b1af59f28524d",
+                "responses": {
+                    "200": {
+                        "description": "Lista de sucursales"
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Sucursales"
+                ],
+                "summary": "Crear sucursal",
+                "operationId": "e384af7ea38d722496dda3b0b4c661a8",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre",
+                                    "direccion"
+                                ],
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Sucursal Central"
+                                    },
+                                    "direccion": {
+                                        "type": "string",
+                                        "example": "Av. Principal #123"
+                                    },
+                                    "telefono": {
+                                        "type": "string",
+                                        "example": "70012345"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Sucursal creada"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/sucursales/{id}": {
+            "get": {
+                "tags": [
+                    "Sucursales"
+                ],
+                "summary": "Obtener una sucursal por ID",
+                "operationId": "dc5376a7e3eed0ccd592fed477df9b42",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la sucursal",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sucursal encontrada"
+                    },
+                    "404": {
+                        "description": "Sucursal no encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Sucursales"
+                ],
+                "summary": "Actualizar sucursal",
+                "operationId": "fdb2e84586cb6100162130e6a3fa6473",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la sucursal",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Sucursal Norte"
+                                    },
+                                    "direccion": {
+                                        "type": "string",
+                                        "example": "Calle Nueva"
+                                    },
+                                    "telefono": {
+                                        "type": "string",
+                                        "example": "75555555"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Sucursal actualizada"
+                    },
+                    "404": {
+                        "description": "Sucursal no encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Sucursales"
+                ],
+                "summary": "Eliminar sucursal",
+                "operationId": "3a2f005ad61ae0aecbc9cc8cc11f5e25",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sucursal eliminada"
+                    },
+                    "404": {
+                        "description": "Sucursal no encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/sucursales-buscar": {
+            "get": {
+                "tags": [
+                    "Sucursales"
+                ],
+                "summary": "Buscar sucursal por nombre",
+                "operationId": "99b1f9e6a0d8ef95b61edaf5c1a9081e",
+                "parameters": [
+                    {
+                        "name": "texto",
+                        "in": "query",
+                        "description": "Texto de búsqueda",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Resultado de búsqueda"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/users": {
             "get": {
                 "tags": [
@@ -330,6 +548,10 @@
         {
             "name": "Autenticación",
             "description": "Autenticación"
+        },
+        {
+            "name": "Sucursales",
+            "description": "Sucursales"
         },
         {
             "name": "Usuarios",
