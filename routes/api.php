@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\NegocioController;
+use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\SucursalController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ Route::get('/hello', function () {
 // Autenticacion
 
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/register', [AuthController::class,'register']);
+Route::post('/register', [AuthController::class, 'register']);
 
 Route::middleware('auth:sanctum')->group(function () {
 
@@ -59,4 +60,17 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/categorias/{id}', [CategoriaController::class, 'update']);
     Route::delete('/categorias/{id}', [CategoriaController::class, 'destroy']);
     Route::get('/categorias-buscar', [CategoriaController::class, 'buscar']);
+
+    // CRUD Productos
+    Route::get('/productos', [ProductoController::class, 'index']);
+    Route::get('/productos/{id}', [ProductoController::class, 'show']);
+    Route::post('/productos', [ProductoController::class, 'store']);
+    Route::put('/productos/{id}', [ProductoController::class, 'update']);
+    Route::delete('/productos/{id}', [ProductoController::class, 'destroy']);
+
+    // búsqueda productos
+    Route::get('/productos-buscar', [ProductoController::class, 'buscar']);
+
+    // stock productos
+    Route::get('/productos/{id}/stock', [ProductoController::class, 'stock']);
 });

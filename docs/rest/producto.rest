@@ -1,0 +1,189 @@
+@token = 3|BWfWUmBujY7D9zR08B0XuSFGQntZyeyLl9sYSwgj12860dea
+
+
+### =====================================
+
+### Obtener todos los productos
+
+### GET /api/productos
+
+### =====================================
+
+GET http://127.0.0.1:8000/api/productos
+Accept: application/json
+Authorization: Bearer {{token}}
+
+
+### =====================================
+
+### Obtener productos con paginación y límite
+
+### GET /api/productos?limite=5
+
+### =====================================
+
+GET http://127.0.0.1:8000/api/productos?limite=1&page=1
+Accept: application/json
+Authorization: Bearer {{token}}
+
+
+### =====================================
+
+### Buscar productos por nombre o código
+
+### GET /api/productos?busqueda=teclado
+
+### =====================================
+
+GET http://127.0.0.1:8000/api/productos?busqueda=Redmi
+Accept: application/json
+Authorization: Bearer {{token}}
+
+
+### =====================================
+
+### Filtrar productos por categoría
+
+### GET /api/productos?categoria_id=1
+
+### =====================================
+
+GET http://127.0.0.1:8000/api/productos?categoria_id=1
+Accept: application/json
+Authorization: Bearer {{token}}
+
+
+### =====================================
+
+### Filtrar productos por sucursal
+
+### GET /api/productos?sucursal_id=1
+
+### =====================================
+
+GET http://127.0.0.1:8000/api/productos?sucursal_id=1
+Accept: application/json
+Authorization: Bearer {{token}}
+
+
+### =====================================
+
+### Obtener un producto por ID
+
+### GET /api/productos/{id}
+
+### =====================================
+
+GET http://127.0.0.1:8000/api/productos/1
+Accept: application/json
+Authorization: Bearer {{token}}
+
+
+### =====================================
+
+### Crear un producto
+
+### POST /api/productos
+
+### =====================================
+
+POST http://127.0.0.1:8000/api/productos
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+{
+    "categoria_id": 1,
+    "sucursal_id": 1,
+    "codigo": "PROD002",
+    "nombre": "Celular Redmi Note 10 pro",
+    "descripcion": "Celular gamer",
+    "precio_compra": 1200,
+    "precio_venta": 220,
+    "stock": 20,
+    "stock_minimo": 5
+}
+
+
+### =====================================
+
+### Actualizar un producto completo
+
+### PUT /api/productos/{id}
+
+### =====================================
+
+PUT http://127.0.0.1:8000/api/productos/1
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+{
+    "categoria_id": 1,
+    "sucursal_id": 1,
+    "codigo": "PROD001",
+    "nombre": "Teclado Mecánico RGB Actualizado",
+    "descripcion": "Nuevo modelo actualizado",
+    "precio_compra": 170,
+    "precio_venta": 250,
+    "stock": 30,
+    "stock_minimo": 10
+}
+
+
+### =====================================
+
+### Actualizar solo algunos campos
+
+### PUT /api/productos/{id}
+
+### =====================================
+
+PUT http://127.0.0.1:8000/api/productos/1
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+{
+    "precio_venta": 280,
+    "stock": 50
+}
+
+
+### =====================================
+
+### Eliminar un producto
+
+### DELETE /api/productos/{id}
+
+### =====================================
+
+DELETE http://127.0.0.1:8000/api/productos/1
+Accept: application/json
+Authorization: Bearer {{token}}
+
+
+### =====================================
+
+### Buscar productos
+
+### GET /api/productos-buscar?texto=
+
+### =====================================
+
+GET http://127.0.0.1:8000/api/productos-buscar?texto=teclado
+Accept: application/json
+Authorization: Bearer {{token}}
+
+
+### =====================================
+
+### Consultar stock de un producto
+
+### GET /api/productos/{id}/stock
+
+### =====================================
+
+GET http://127.0.0.1:8000/api/productos/1/stock
+Accept: application/json
+Authorization: Bearer {{token}}
