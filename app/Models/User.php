@@ -2,11 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Database\Factories\UserFactory;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Database\Eloquent\Attributes\Hidden;
-
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
@@ -18,6 +13,7 @@ class User extends Authenticatable
 
 
     protected $fillable = [
+        'negocio_id',
         'nombre',
         'role',
         'email',
@@ -53,5 +49,10 @@ class User extends Authenticatable
     public function notas()
     {
         return $this->hasMany(Nota::class);
+    }
+
+    public function negocio()
+    {
+        return $this->belongsTo(Negocio::class);
     }
 }

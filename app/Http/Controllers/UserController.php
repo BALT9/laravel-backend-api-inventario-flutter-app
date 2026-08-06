@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use OpenApi\Attributes as OA;
 
@@ -28,7 +29,14 @@ class UserController extends Controller
     )]
     public function index()
     {
-        return response()->json(User::all(), 200);
+        return response()->json(
+
+            User::where(
+                'negocio_id',
+                Auth::user()->negocio_id
+            )->get(),
+            200
+        );
     }
 
 
@@ -60,7 +68,11 @@ class UserController extends Controller
     )]
     public function show($id)
     {
-        $user = User::find($id);
+        $user = User::where(
+            'negocio_id',
+            Auth::user()->negocio_id
+        )
+            ->find($id);
 
         if (!$user) {
             return response()->json([
@@ -135,6 +147,7 @@ class UserController extends Controller
         ]);
 
         $user = User::create([
+            'negocio_id' => Auth::user()->negocio_id,
             'nombre' => $request->nombre,
             'role' => $request->role,
             'email' => $request->email,
@@ -169,7 +182,10 @@ class UserController extends Controller
     )]
     public function update(Request $request, $id)
     {
-        $user = User::find($id);
+        $user = User::where(
+            'negocio_id',
+            Auth::user()->negocio_id
+        )->find($id);
 
         if (!$user) {
             return response()->json([
@@ -223,7 +239,10 @@ class UserController extends Controller
     )]
     public function destroy($id)
     {
-        $user = User::find($id);
+        $user = User::where(
+            'negocio_id',
+            Auth::user()->negocio_id
+        )->find($id);
 
         if (!$user) {
             return response()->json([

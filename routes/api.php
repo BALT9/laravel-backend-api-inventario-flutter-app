@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\NegocioController;
 use App\Http\Controllers\SucursalController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -18,6 +19,8 @@ Route::get('/hello', function () {
 // Autenticacion
 
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class,'register']);
+
 Route::middleware('auth:sanctum')->group(function () {
 
     // Auth
@@ -32,6 +35,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/users', [UserController::class, 'store']);
     Route::put('/users/{id}', [UserController::class, 'update']);
     Route::delete('/users/{id}', [UserController::class, 'destroy']);
+
+    // CRUD Negocios
+
+    Route::get('/negocios', [NegocioController::class, 'index']);
+    Route::get('/negocios/{id}', [NegocioController::class, 'show']);
+    Route::post('/negocios', [NegocioController::class, 'store']);
+    Route::put('/negocios/{id}', [NegocioController::class, 'update']);
+    Route::delete('/negocios/{id}', [NegocioController::class, 'destroy']);
 
     // CRUD Sucursales
     Route::get('/sucursales', [SucursalController::class, 'index']);

@@ -12,13 +12,15 @@ return new class extends Migration
 
             $table->id();
 
+            $table->foreignId('negocio_id')
+                ->constrained('negocios')
+                ->cascadeOnDelete();
+
             $table->string('nombre');
 
-            $table->string('direccion')
-                ->nullable();
+            $table->string('direccion')->nullable();
 
-            $table->string('telefono')
-                ->nullable();
+            $table->string('telefono')->nullable();
 
             $table->timestamps();
         });

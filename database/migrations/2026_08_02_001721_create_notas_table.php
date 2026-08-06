@@ -15,16 +15,16 @@ return new class extends Migration
 
             $table->id();
 
+            $table->foreignId('negocio_id')
+                ->constrained('negocios')
+                ->cascadeOnDelete();
 
             $table->foreignId('user_id')
                 ->constrained('users');
 
-
             $table->string('titulo');
 
-
             $table->text('descripcion');
-
 
             $table->timestamps();
         });

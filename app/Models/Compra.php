@@ -9,6 +9,7 @@ class Compra extends Model
 
     protected $fillable = [
 
+        'negocio_id',
         'user_id',
         'sucursal_id',
         'fecha',
@@ -17,6 +18,10 @@ class Compra extends Model
 
     ];
 
+    public function negocio()
+    {
+        return $this->belongsTo(Negocio::class);
+    }
 
     public function usuario()
     {

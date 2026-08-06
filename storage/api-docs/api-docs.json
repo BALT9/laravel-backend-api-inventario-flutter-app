@@ -12,6 +12,71 @@
         }
     ],
     "paths": {
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "Autenticación"
+                ],
+                "summary": "Registrar un nuevo negocio y usuario administrador",
+                "description": "Crea un negocio, crea el usuario administrador asociado y genera un token de autenticación.",
+                "operationId": "8a56853624e025573120a09a4c75d468",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "negocio",
+                                    "nombre",
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "negocio": {
+                                        "type": "string",
+                                        "example": "Tienda Central"
+                                    },
+                                    "direccion": {
+                                        "type": "string",
+                                        "example": "Av. Principal 123"
+                                    },
+                                    "telefono": {
+                                        "type": "string",
+                                        "example": "70000000"
+                                    },
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Juan Perez"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "juan@mail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "123456789"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Registro exitoso"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                }
+            }
+        },
         "/api/login": {
             "post": {
                 "tags": [
@@ -62,7 +127,7 @@
                 "operationId": "fe8f3429cd6979b3b4517e186505f9f9",
                 "responses": {
                     "200": {
-                        "description": "Sesión cerrada correctamente"
+                        "description": "Sesion cerrada correctamente"
                     },
                     "401": {
                         "description": "No autenticado"
@@ -156,7 +221,7 @@
                 "tags": [
                     "Categorías"
                 ],
-                "summary": "Obtener todas las categorías",
+                "summary": "Obtener todas las categorías del negocio autenticado",
                 "operationId": "66bfb3e0bf7747700be142ec5329dfae",
                 "responses": {
                     "200": {
@@ -176,7 +241,7 @@
                 "tags": [
                     "Categorías"
                 ],
-                "summary": "Crear categoría",
+                "summary": "Crear una categoría",
                 "operationId": "acace4e67a5f9bbaa41b456c95b2bd05",
                 "requestBody": {
                     "required": true,
@@ -203,10 +268,7 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Categoría creada"
-                    },
-                    "422": {
-                        "description": "Error de validación"
+                        "description": "Categoría creada correctamente"
                     }
                 },
                 "security": [
@@ -258,32 +320,13 @@
                     {
                         "name": "id",
                         "in": "path",
+                        "description": "ID de la categoría",
                         "required": true,
                         "schema": {
                             "type": "integer"
                         }
                     }
                 ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "nombre": {
-                                        "type": "string",
-                                        "example": "Electrónicos"
-                                    },
-                                    "descripcion": {
-                                        "type": "string",
-                                        "example": "Productos tecnológicos"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
                 "responses": {
                     "200": {
                         "description": "Categoría actualizada"
@@ -308,6 +351,7 @@
                     {
                         "name": "id",
                         "in": "path",
+                        "description": "ID de la categoría",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -316,7 +360,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Categoría eliminada"
+                        "description": "Categoría eliminada correctamente"
                     },
                     "404": {
                         "description": "Categoría no encontrada"
@@ -329,17 +373,18 @@
                 ]
             }
         },
-        "/api/categorias-buscar": {
+        "/api/categorias/buscar": {
             "get": {
                 "tags": [
                     "Categorías"
                 ],
                 "summary": "Buscar categorías por nombre",
-                "operationId": "158433b6ee9844913fc766c98bfa149a",
+                "operationId": "4102daa221fd474a180ccf5e5b4683d1",
                 "parameters": [
                     {
                         "name": "texto",
                         "in": "query",
+                        "description": "Texto para buscar en el nombre",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -348,7 +393,176 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Resultado de búsqueda"
+                        "description": "Lista de categorías encontradas"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/negocios": {
+            "get": {
+                "tags": [
+                    "Negocios"
+                ],
+                "summary": "Obtener negocios del usuario autenticado",
+                "operationId": "6356ca76f5729642d8bffcb57a7e6ddf",
+                "responses": {
+                    "200": {
+                        "description": "Lista de negocios"
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Negocios"
+                ],
+                "summary": "Crear un nuevo negocio",
+                "operationId": "a6c057c5d43494657c978c845496f57a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre"
+                                ],
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Tienda Central"
+                                    },
+                                    "direccion": {
+                                        "type": "string",
+                                        "example": "Av. Principal 123"
+                                    },
+                                    "telefono": {
+                                        "type": "string",
+                                        "example": "70000000"
+                                    },
+                                    "logo": {
+                                        "type": "string",
+                                        "example": "logo.png"
+                                    },
+                                    "estado": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Negocio creado"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/negocios/{id}": {
+            "get": {
+                "tags": [
+                    "Negocios"
+                ],
+                "summary": "Obtener un negocio por ID",
+                "operationId": "c8a06abb16047eed78b3e1977f0da785",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del negocio",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Negocio encontrado"
+                    },
+                    "404": {
+                        "description": "Negocio no encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Negocios"
+                ],
+                "summary": "Actualizar negocio",
+                "operationId": "dabd2bebb9ad7661d4de8fd489456238",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del negocio",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Negocio actualizado"
+                    },
+                    "404": {
+                        "description": "Negocio no encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Negocios"
+                ],
+                "summary": "Eliminar negocio",
+                "operationId": "4884926613d3ffe371d75cc07723dbcc",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del negocio",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Negocio eliminado"
+                    },
+                    "404": {
+                        "description": "Negocio no encontrado"
                     }
                 },
                 "security": [
@@ -363,7 +577,7 @@
                 "tags": [
                     "Sucursales"
                 ],
-                "summary": "Obtener todas las sucursales",
+                "summary": "Obtener todas las sucursales del negocio autenticado",
                 "operationId": "408211be2806cd0c1d2b1af59f28524d",
                 "responses": {
                     "200": {
@@ -383,7 +597,7 @@
                 "tags": [
                     "Sucursales"
                 ],
-                "summary": "Crear sucursal",
+                "summary": "Crear una sucursal",
                 "operationId": "e384af7ea38d722496dda3b0b4c661a8",
                 "requestBody": {
                     "required": true,
@@ -391,8 +605,7 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "nombre",
-                                    "direccion"
+                                    "nombre"
                                 ],
                                 "properties": {
                                     "nombre": {
@@ -401,11 +614,11 @@
                                     },
                                     "direccion": {
                                         "type": "string",
-                                        "example": "Av. Principal #123"
+                                        "example": "Av. Principal 123"
                                     },
                                     "telefono": {
                                         "type": "string",
-                                        "example": "70012345"
+                                        "example": "70000000"
                                     }
                                 },
                                 "type": "object"
@@ -415,10 +628,10 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Sucursal creada"
+                        "description": "Sucursal creada correctamente"
                     },
-                    "422": {
-                        "description": "Error de validación"
+                    "401": {
+                        "description": "No autenticado"
                     }
                 },
                 "security": [
@@ -477,30 +690,6 @@
                         }
                     }
                 ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "nombre": {
-                                        "type": "string",
-                                        "example": "Sucursal Norte"
-                                    },
-                                    "direccion": {
-                                        "type": "string",
-                                        "example": "Calle Nueva"
-                                    },
-                                    "telefono": {
-                                        "type": "string",
-                                        "example": "75555555"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
                 "responses": {
                     "200": {
                         "description": "Sucursal actualizada"
@@ -525,6 +714,7 @@
                     {
                         "name": "id",
                         "in": "path",
+                        "description": "ID de la sucursal",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -533,7 +723,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Sucursal eliminada"
+                        "description": "Sucursal eliminada correctamente"
                     },
                     "404": {
                         "description": "Sucursal no encontrada"
@@ -546,18 +736,18 @@
                 ]
             }
         },
-        "/api/sucursales-buscar": {
+        "/api/sucursales/buscar": {
             "get": {
                 "tags": [
                     "Sucursales"
                 ],
-                "summary": "Buscar sucursal por nombre",
-                "operationId": "99b1f9e6a0d8ef95b61edaf5c1a9081e",
+                "summary": "Buscar sucursales por nombre",
+                "operationId": "3721b9f419908c7cede47ce6e4e14f45",
                 "parameters": [
                     {
                         "name": "texto",
                         "in": "query",
-                        "description": "Texto de búsqueda",
+                        "description": "Texto a buscar en el nombre",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -759,6 +949,10 @@
         {
             "name": "Categorías",
             "description": "Categorías"
+        },
+        {
+            "name": "Negocios",
+            "description": "Negocios"
         },
         {
             "name": "Sucursales",

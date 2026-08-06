@@ -15,29 +15,27 @@ return new class extends Migration
 
             $table->id();
 
+            $table->foreignId('negocio_id')
+                ->constrained('negocios')
+                ->cascadeOnDelete();
 
             $table->foreignId('producto_id')
                 ->constrained('productos');
 
-
             $table->foreignId('user_id')
                 ->constrained('users');
 
-
             $table->enum('tipo', [
                 'entrada',
-                'salida'
+                'salida',
+                'ajuste'
             ]);
-
 
             $table->integer('cantidad');
 
-
             $table->integer('stock_anterior');
 
-
             $table->integer('stock_actual');
-
 
             $table->timestamps();
         });

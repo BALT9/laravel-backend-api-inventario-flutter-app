@@ -15,21 +15,16 @@ return new class extends Migration
 
             $table->id();
 
-
             $table->foreignId('venta_id')
                 ->constrained('ventas')
                 ->cascadeOnDelete();
 
-
             $table->foreignId('producto_id')
                 ->constrained('productos');
 
-
             $table->integer('cantidad');
 
-
             $table->decimal('precio', 12, 2);
-
 
             $table->decimal('subtotal', 12, 2);
         });

@@ -1,5 +1,23 @@
-@token = 5|HWCbYkbWsIMSrRNsXTeBWgmeKp2zax8zwYlCWXuI34f03292
+@token = 4|gewfjjFrMSzo7XpQ1D7PfiX6dSZb8LDs4c9rXG5Qec885528
 
+### =====================================
+### REGISTER
+### POST /api/register
+### =====================================
+
+POST http://127.0.0.1:8000/api/register
+Content-Type: application/json
+Accept: application/json
+
+{
+    "negocio":"Ferreteria El Centro",
+    "direccion":"Calle 1",
+    "telefono":"77777777",
+
+    "nombre":"Carlos",
+    "email":"carlos@mail.com",
+    "password":"123456"
+}
 
 ### =====================================
 ### LOGIN
@@ -11,8 +29,8 @@ Content-Type: application/json
 Accept: application/json
 
 {
-    "email": "juan@mail.com",
-    "password": "1234567890"
+    "email": "admin@test.com",
+    "password": "123456"
 }
 
 

@@ -1,84 +1,102 @@
 @token = 3|BWfWUmBujY7D9zR08B0XuSFGQntZyeyLl9sYSwgj12860dea
 
 ### =====================================
-### Obtener todos los usuarios
-### GET /api/users
+
+### Obtener todos los negocios
+
+### GET /api/negocios
+
 ### =====================================
 
-GET http://127.0.0.1:8000/api/users
+GET http://127.0.0.1:8000/api/negocios
 Accept: application/json
 Authorization: Bearer {{token}}
 
 
 ### =====================================
-### Obtener un usuario por ID
-### GET /api/users/{id}
+
+### Obtener un negocio por ID
+
+### GET /api/negocios/{id}
+
 ### =====================================
 
-GET http://127.0.0.1:8000/api/users/1
+GET http://127.0.0.1:8000/api/negocios/1
 Accept: application/json
 Authorization: Bearer {{token}}
 
 
 ### =====================================
-### Crear un usuario
-### POST /api/users
+
+### Crear un negocio
+
+### POST /api/negocios
+
 ### =====================================
 
-POST http://127.0.0.1:8000/api/users
+POST http://127.0.0.1:8000/api/negocios
 Content-Type: application/json
 Accept: application/json
 Authorization: Bearer {{token}}
 
 {
-    "nombre": "Ana Maria",
-    "role": "admin",
-    "email": "ana@mail.com",
-    "password": "1234567890",
+    "nombre": "Tienda Central",
+    "direccion": "Av. Principal #123",
+    "telefono": "70000000",
+    "email": "tienda@mail.com",
     "estado": 1
 }
 
 
 ### =====================================
-### Actualizar un usuario completo
-### PUT /api/users/{id}
+
+### Actualizar un negocio completo
+
+### PUT /api/negocios/{id}
+
 ### =====================================
 
-PUT http://127.0.0.1:8000/api/users/1
+PUT http://127.0.0.1:8000/api/negocios/1
 Content-Type: application/json
 Accept: application/json
 Authorization: Bearer {{token}}
 
 {
-    "nombre": "Juan Perez Actualizado",
-    "role": "empleado",
-    "email": "juan_actualizado@mail.com",
-    "password": "987654321",
+    "nombre": "Tienda Central Actualizada",
+    "direccion": "Calle Nueva #456",
+    "telefono": "71111111",
+    "email": "contacto@mail.com",
+    "estado": 1
+}
+
+
+### =====================================
+
+### Actualizar solo algunos campos
+
+### PUT /api/negocios/{id}
+
+### =====================================
+
+PUT http://127.0.0.1:8000/api/negocios/1
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+{
+    "nombre": "Tienda Modificada",
     "estado": 0
 }
 
 
 ### =====================================
-### Actualizar solo algunos campos
-### PUT /api/users/{id}
-### =====================================
 
-PUT http://127.0.0.1:8000/api/users/1
-Content-Type: application/json
-Accept: application/json
-Authorization: Bearer {{token}}
+### Eliminar un negocio
 
-{
-    "nombre": "Juan Modificado",
-    "estado": 1
-}
-
+### DELETE /api/negocios/{id}
 
 ### =====================================
-### Eliminar un usuario
-### DELETE /api/users/{id}
-### =====================================
 
-DELETE http://127.0.0.1:8000/api/users/1
+DELETE http://127.0.0.1:8000/api/negocios/1
 Accept: application/json
 Authorization: Bearer {{token}}

@@ -15,25 +15,23 @@ return new class extends Migration
 
             $table->id();
 
+            $table->foreignId('negocio_id')
+                ->constrained('negocios')
+                ->cascadeOnDelete();
 
             $table->foreignId('user_id')
                 ->constrained('users');
 
-
             $table->foreignId('sucursal_id')
                 ->constrained('sucursales');
-
 
             $table->timestamp('fecha')
                 ->useCurrent();
 
-
             $table->decimal('total', 12, 2);
-
 
             $table->text('observacion')
                 ->nullable();
-
 
             $table->timestamps();
         });

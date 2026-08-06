@@ -9,6 +9,7 @@ class Venta extends Model
 
     protected $fillable = [
 
+        'negocio_id',
         'user_id',
         'sucursal_id',
         'fecha',
@@ -17,6 +18,10 @@ class Venta extends Model
 
     ];
 
+    public function negocio()
+    {
+        return $this->belongsTo(Negocio::class);
+    }
 
     public function usuario()
     {

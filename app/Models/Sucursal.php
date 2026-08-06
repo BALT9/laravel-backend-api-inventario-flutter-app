@@ -9,11 +9,17 @@ class Sucursal extends Model
     protected $table = 'sucursales';
 
     protected $fillable = [
+        'negocio_id',
         'nombre',
         'direccion',
         'telefono'
     ];
 
+
+    public function negocio()
+    {
+        return $this->belongsTo(Negocio::class);
+    }
 
     public function productos()
     {

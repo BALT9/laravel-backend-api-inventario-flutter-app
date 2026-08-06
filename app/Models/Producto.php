@@ -9,6 +9,7 @@ class Producto extends Model
 
     protected $fillable = [
 
+        'negocio_id',
         'categoria_id',
         'sucursal_id',
         'codigo',
@@ -18,9 +19,12 @@ class Producto extends Model
         'precio_venta',
         'stock',
         'stock_minimo'
-
     ];
 
+    public function negocio()
+    {
+        return $this->belongsTo(Negocio::class);
+    }
 
     public function categoria()
     {

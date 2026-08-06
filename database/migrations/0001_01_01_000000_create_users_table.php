@@ -6,83 +6,80 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
-    {
-        Schema::create('users', function (Blueprint $table) {
+      /**
+       * Run the migrations.
+       */
+      public function up(): void
+      {
+            Schema::create('users', function (Blueprint $table) {
 
-            $table->id();
+                  $table->id();
 
-            $table->string('nombre');
+                  $table->foreignId('negocio_id')
+                        ->constrained('negocios')
+                        ->cascadeOnDelete();
 
-            $table->string('role')
-                  ->default('usuario');
+                  $table->string('nombre');
 
-            $table->string('email')
-                  ->unique();
+                  $table->string('role')->default('usuario');
 
-            $table->timestamp('email_verified_at')
-                  ->nullable();
+                  $table->string('email')->unique();
 
-            $table->string('password');
+                  $table->timestamp('email_verified_at')->nullable();
 
-            $table->boolean('estado')
-                  ->default(true);
+                  $table->string('password');
 
-            $table->rememberToken();
+                  $table->boolean('estado')->default(true);
 
-            $table->timestamps();
+                  $table->rememberToken();
 
-        });
-
-
-        Schema::create('password_reset_tokens', function (Blueprint $table) {
-
-            $table->string('email')->primary();
-
-            $table->string('token');
-
-            $table->timestamp('created_at')
-                  ->nullable();
-
-        });
+                  $table->timestamps();
+            });
 
 
-        Schema::create('sessions', function (Blueprint $table) {
+            Schema::create('password_reset_tokens', function (Blueprint $table) {
 
-            $table->string('id')
-                  ->primary();
+                  $table->string('email')->primary();
 
-            $table->foreignId('user_id')
-                  ->nullable()
-                  ->index();
+                  $table->string('token');
 
-            $table->string('ip_address', 45)
-                  ->nullable();
-
-            $table->text('user_agent')
-                  ->nullable();
-
-            $table->longText('payload');
-
-            $table->integer('last_activity')
-                  ->index();
-
-        });
-    }
+                  $table->timestamp('created_at')
+                        ->nullable();
+            });
 
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('sessions');
+            Schema::create('sessions', function (Blueprint $table) {
 
-        Schema::dropIfExists('password_reset_tokens');
+                  $table->string('id')
+                        ->primary();
 
-        Schema::dropIfExists('users');
-    }
+                  $table->foreignId('user_id')
+                        ->nullable()
+                        ->index();
+
+                  $table->string('ip_address', 45)
+                        ->nullable();
+
+                  $table->text('user_agent')
+                        ->nullable();
+
+                  $table->longText('payload');
+
+                  $table->integer('last_activity')
+                        ->index();
+            });
+      }
+
+
+      /**
+       * Reverse the migrations.
+       */
+      public function down(): void
+      {
+            Schema::dropIfExists('sessions');
+
+            Schema::dropIfExists('password_reset_tokens');
+
+            Schema::dropIfExists('users');
+      }
 };

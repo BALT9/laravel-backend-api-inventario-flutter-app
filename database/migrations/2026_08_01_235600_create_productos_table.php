@@ -15,43 +15,38 @@ return new class extends Migration
 
             $table->id();
 
+            $table->foreignId('negocio_id')
+                ->constrained('negocios')
+                ->cascadeOnDelete();
 
             $table->foreignId('categoria_id')
                 ->constrained('categorias')
                 ->cascadeOnDelete();
 
-
             $table->foreignId('sucursal_id')
                 ->constrained('sucursales')
                 ->cascadeOnDelete();
 
-
-            $table->string('codigo')
-                ->unique();
-
+            $table->string('codigo');
 
             $table->string('nombre');
-
 
             $table->text('descripcion')
                 ->nullable();
 
-
             $table->decimal('precio_compra', 12, 2);
 
-
             $table->decimal('precio_venta', 12, 2);
-
 
             $table->integer('stock')
                 ->default(0);
 
-
             $table->integer('stock_minimo')
                 ->default(5);
 
-
             $table->timestamps();
+
+            $table->unique(['negocio_id', 'codigo']);
         });
     }
 

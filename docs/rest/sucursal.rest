@@ -1,4 +1,4 @@
-@token = 6|LFaddttHVl6w35A8x42K46W6VliyTJ1UGC6VxPua94b01b90
+@token = 3|BWfWUmBujY7D9zR08B0XuSFGQntZyeyLl9sYSwgj12860dea
 
 
 ### =====================================
@@ -34,8 +34,8 @@ Accept: application/json
 Authorization: Bearer {{token}}
 
 {
-    "nombre": "Sucursal del Este",
-    "direccion": "Av. America #123",
+    "nombre": "Sucursal del Alto",
+    "direccion": "Av. Poeta #123",
     "telefono": "70012345"
 }
 

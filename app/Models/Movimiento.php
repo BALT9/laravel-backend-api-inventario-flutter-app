@@ -9,6 +9,7 @@ class Movimiento extends Model
 
     protected $fillable = [
 
+        'negocio_id',
         'producto_id',
         'user_id',
         'tipo',
@@ -17,6 +18,11 @@ class Movimiento extends Model
         'stock_actual'
 
     ];
+
+    public function negocio()
+    {
+        return $this->belongsTo(Negocio::class);
+    }
 
 
     public function producto()
