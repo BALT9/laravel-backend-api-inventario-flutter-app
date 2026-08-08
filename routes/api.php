@@ -2,10 +2,13 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\CompraController;
+use App\Http\Controllers\MovimientoController;
 use App\Http\Controllers\NegocioController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\SucursalController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VentaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -73,4 +76,17 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // stock productos
     Route::get('/productos/{id}/stock', [ProductoController::class, 'stock']);
+
+    // Compras
+    Route::get('/compras', [CompraController::class, 'index']);
+    Route::get('/compras/{id}', [CompraController::class, 'show']);
+    Route::post('/compras', [CompraController::class, 'store']);
+
+    // Movimientos
+    Route::get('/movimientos', [MovimientoController::class, 'index']);
+
+    // Ventas
+    Route::get('/ventas', [VentaController::class, 'index']);
+    Route::get('/ventas/{id}', [VentaController::class, 'show']);
+    Route::post('/ventas', [VentaController::class, 'store']);
 });

@@ -1,0 +1,77 @@
+@token = 5|9qQHdtkCZzyhpf7iTPKXvXuIQVWjd0dWGzVcUgNp10360ff5
+
+### =====================================
+
+### Obtener todas las ventas
+
+### GET /api/ventas
+
+### =====================================
+
+GET http://127.0.0.1:8000/api/ventas
+Accept: application/json
+Authorization: Bearer {{token}}
+
+### =====================================
+
+### Obtener una venta por ID
+
+### GET /api/ventas/1
+
+### =====================================
+
+GET http://127.0.0.1:8000/api/ventas/1
+Accept: application/json
+Authorization: Bearer {{token}}
+
+### =====================================
+
+### Registrar una venta
+
+### POST /api/ventas
+
+### =====================================
+
+POST http://127.0.0.1:8000/api/ventas
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+{
+    "sucursal_id": 1,
+    "fecha": "2026-08-08",
+    "observacion": "Venta de productos",
+    "detalles": [
+        {
+            "producto_id": 1,
+            "cantidad": 2,
+            "precio": 220.00
+        },
+        {
+            "producto_id": 2,
+            "cantidad": 1,
+            "precio": 220.00
+        }
+    ]
+}
+
+
+### =====================================
+
+POST http://127.0.0.1:8000/api/ventas
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+{
+    "sucursal_id": 1,
+    "fecha": "2026-08-08",
+    "observacion": "Venta de productos",
+    "detalles": [
+        {
+            "producto_id": 3,
+            "cantidad": 1,
+            "precio": 38000
+        }
+    ]
+}

@@ -403,6 +403,257 @@
                 ]
             }
         },
+        "/api/compras": {
+            "get": {
+                "tags": [
+                    "Compras"
+                ],
+                "summary": "Obtener todas las compras",
+                "description": "Obtiene todas las compras pertenecientes al negocio del usuario autenticado.",
+                "operationId": "f8eb7c0a1eefb64950a585eb9983419a",
+                "responses": {
+                    "200": {
+                        "description": "Lista de compras"
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Compras"
+                ],
+                "summary": "Registrar una nueva compra",
+                "description": "Registra una compra, aumenta el stock de los productos y crea automáticamente los movimientos de inventario.",
+                "operationId": "da99d3423a329f1b7584114a38452adf",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "sucursal_id",
+                                    "detalles"
+                                ],
+                                "properties": {
+                                    "sucursal_id": {
+                                        "description": "ID de la sucursal donde se registra la compra",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "fecha": {
+                                        "description": "Fecha de la compra",
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2026-08-08",
+                                        "nullable": true
+                                    },
+                                    "observacion": {
+                                        "description": "Observación de la compra",
+                                        "type": "string",
+                                        "example": "Compra de mercadería",
+                                        "nullable": true
+                                    },
+                                    "detalles": {
+                                        "description": "Productos incluidos en la compra",
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "producto_id",
+                                                "cantidad",
+                                                "precio"
+                                            ],
+                                            "properties": {
+                                                "producto_id": {
+                                                    "description": "ID del producto",
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "cantidad": {
+                                                    "description": "Cantidad comprada",
+                                                    "type": "integer",
+                                                    "example": 10,
+                                                    "minimum": 1
+                                                },
+                                                "precio": {
+                                                    "description": "Precio unitario de compra",
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 150,
+                                                    "minimum": 0.01
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "minItems": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Compra registrada correctamente"
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    },
+                    "403": {
+                        "description": "La sucursal no pertenece al negocio"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    },
+                    "500": {
+                        "description": "Error al registrar la compra"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/compras/{id}": {
+            "get": {
+                "tags": [
+                    "Compras"
+                ],
+                "summary": "Obtener una compra por ID",
+                "description": "Obtiene una compra específica perteneciente al negocio del usuario autenticado.",
+                "operationId": "cfc281a2fe0b31302ab28a228613c8ae",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la compra",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Compra encontrada"
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    },
+                    "404": {
+                        "description": "Compra no encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/movimientos": {
+            "get": {
+                "tags": [
+                    "Movimientos"
+                ],
+                "summary": "Obtener movimientos de inventario",
+                "description": "Obtiene los movimientos de inventario pertenecientes al negocio del usuario autenticado. Permite filtrar por producto, tipo de movimiento y fechas.",
+                "operationId": "964675154d4178f1f60ac9b8b0b6a3a6",
+                "parameters": [
+                    {
+                        "name": "producto_id",
+                        "in": "query",
+                        "description": "Filtrar movimientos por ID del producto",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "tipo",
+                        "in": "query",
+                        "description": "Filtrar por tipo de movimiento",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "entrada",
+                            "enum": [
+                                "entrada",
+                                "salida",
+                                "ajuste"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "fecha",
+                        "in": "query",
+                        "description": "Filtrar movimientos de una fecha específica",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2026-08-08"
+                        }
+                    },
+                    {
+                        "name": "fecha_desde",
+                        "in": "query",
+                        "description": "Mostrar movimientos desde esta fecha",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2026-08-01"
+                        }
+                    },
+                    {
+                        "name": "fecha_hasta",
+                        "in": "query",
+                        "description": "Mostrar movimientos hasta esta fecha",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2026-08-08"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Número de página",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de movimientos"
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/negocios": {
             "get": {
                 "tags": [
@@ -1250,6 +1501,164 @@
                     }
                 ]
             }
+        },
+        "/api/ventas": {
+            "get": {
+                "tags": [
+                    "Ventas"
+                ],
+                "summary": "Obtener todas las ventas",
+                "description": "Obtiene las ventas pertenecientes al negocio del usuario autenticado.",
+                "operationId": "59c03fc441794a47b47713cdee979799",
+                "responses": {
+                    "200": {
+                        "description": "Lista de ventas"
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Ventas"
+                ],
+                "summary": "Registrar una nueva venta",
+                "description": "Registra una venta, disminuye el stock de los productos y crea automáticamente los movimientos de inventario.",
+                "operationId": "6aa3f756f5bdb76e61f2ff273ceec24f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "sucursal_id",
+                                    "detalles"
+                                ],
+                                "properties": {
+                                    "sucursal_id": {
+                                        "description": "ID de la sucursal donde se realiza la venta",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "fecha": {
+                                        "description": "Fecha de la venta",
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2026-08-08",
+                                        "nullable": true
+                                    },
+                                    "observacion": {
+                                        "description": "Observación de la venta",
+                                        "type": "string",
+                                        "example": "Venta de productos",
+                                        "nullable": true
+                                    },
+                                    "detalles": {
+                                        "description": "Productos incluidos en la venta",
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "producto_id",
+                                                "cantidad",
+                                                "precio"
+                                            ],
+                                            "properties": {
+                                                "producto_id": {
+                                                    "description": "ID del producto",
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "cantidad": {
+                                                    "description": "Cantidad de productos vendidos",
+                                                    "type": "integer",
+                                                    "example": 2,
+                                                    "minimum": 1
+                                                },
+                                                "precio": {
+                                                    "description": "Precio unitario de venta",
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 220,
+                                                    "minimum": 0.01
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "minItems": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Venta registrada correctamente"
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    },
+                    "403": {
+                        "description": "La sucursal no pertenece al negocio"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    },
+                    "500": {
+                        "description": "Error al registrar la venta"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/ventas/{id}": {
+            "get": {
+                "tags": [
+                    "Ventas"
+                ],
+                "summary": "Obtener una venta por ID",
+                "description": "Obtiene una venta específica perteneciente al negocio del usuario autenticado.",
+                "operationId": "ecd7b49598d06f96417a7b8e6b527688",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la venta",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Venta encontrada"
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    },
+                    "404": {
+                        "description": "Venta no encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -1271,6 +1680,14 @@
             "description": "Categorías"
         },
         {
+            "name": "Compras",
+            "description": "Compras"
+        },
+        {
+            "name": "Movimientos",
+            "description": "Movimientos"
+        },
+        {
             "name": "Negocios",
             "description": "Negocios"
         },
@@ -1285,6 +1702,10 @@
         {
             "name": "Usuarios",
             "description": "Usuarios"
+        },
+        {
+            "name": "Ventas",
+            "description": "Ventas"
         }
     ]
 }

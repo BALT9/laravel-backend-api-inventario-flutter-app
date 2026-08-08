@@ -1,0 +1,76 @@
+@token = 5|9qQHdtkCZzyhpf7iTPKXvXuIQVWjd0dWGzVcUgNp10360ff5
+
+### =====================================
+
+### Obtener todas las compras
+
+### GET /api/compras
+
+### =====================================
+
+GET http://127.0.0.1:8000/api/compras
+Accept: application/json
+Authorization: Bearer {{token}}
+
+### =====================================
+
+### Obtener una compra por ID
+
+### GET /api/compras/{id}
+
+### =====================================
+
+GET http://127.0.0.1:8000/api/compras/1
+Accept: application/json
+Authorization: Bearer {{token}}
+
+### =====================================
+
+### Registrar una compra
+
+### POST /api/compras
+
+### =====================================
+
+POST http://127.0.0.1:8000/api/compras
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+{
+    "sucursal_id": 1,
+    "fecha": "2026-08-08",
+    "observacion": "Compra de productos",
+    "detalles": [
+        {
+            "producto_id": 1,
+            "cantidad": 10,
+            "precio": 25.50
+        },
+        {
+            "producto_id": 2,
+            "cantidad": 5,
+            "precio": 15.00
+        }
+    ]
+}
+
+### =====================================
+
+POST http://127.0.0.1:8000/api/compras
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+{
+    "sucursal_id": 1,
+    "fecha": "2026-08-08",
+    "observacion": "Compra de productos",
+    "detalles": [
+        {
+            "producto_id": 1,
+            "cantidad": 3,
+            "precio": 200
+        }
+    ]
+}

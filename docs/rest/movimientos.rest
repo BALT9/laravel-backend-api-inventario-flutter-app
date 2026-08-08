@@ -1,0 +1,73 @@
+@token = 5|9qQHdtkCZzyhpf7iTPKXvXuIQVWjd0dWGzVcUgNp10360ff5
+
+### =====================================
+
+### Obtener todos los movimientos
+
+### GET /api/movimientos
+
+### =====================================
+
+GET http://127.0.0.1:8000/api/movimientos
+Accept: application/json
+Authorization: Bearer {{token}}
+
+### =====================================
+
+### Filtrar por producto
+
+### GET /api/movimientos?producto_id=1
+
+### =====================================
+
+GET http://127.0.0.1:8000/api/movimientos?producto_id=1
+Accept: application/json
+Authorization: Bearer {{token}}
+
+### =====================================
+
+### Filtrar por tipo entrada
+
+### GET /api/movimientos?tipo=entrada
+
+### =====================================
+
+GET http://127.0.0.1:8000/api/movimientos?tipo=entrada
+Accept: application/json
+Authorization: Bearer {{token}}
+
+### =====================================
+
+### Filtrar por tipo salida
+
+### GET /api/movimientos?tipo=salida
+
+### =====================================
+
+GET http://127.0.0.1:8000/api/movimientos?tipo=salida
+Accept: application/json
+Authorization: Bearer {{token}}
+
+### =====================================
+
+### Filtrar por fecha
+
+### GET /api/movimientos?fecha=2026-08-08
+
+### =====================================
+
+GET http://127.0.0.1:8000/api/movimientos?fecha=2026-08-08
+Accept: application/json
+Authorization: Bearer {{token}}
+
+### =====================================
+
+### Filtrar por rango de fechas
+
+### GET /api/movimientos?fecha_desde=2026-08-01&fecha_hasta=2026-08-08
+
+### =====================================
+
+GET http://127.0.0.1:8000/api/movimientos?fecha_desde=2026-08-01&fecha_hasta=2026-08-08
+Accept: application/json
+Authorization: Bearer {{token}}

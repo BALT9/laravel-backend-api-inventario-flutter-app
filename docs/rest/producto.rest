@@ -1,4 +1,4 @@
-@token = 3|BWfWUmBujY7D9zR08B0XuSFGQntZyeyLl9sYSwgj12860dea
+@token = 5|9qQHdtkCZzyhpf7iTPKXvXuIQVWjd0dWGzVcUgNp10360ff5
 
 
 ### =====================================
@@ -35,7 +35,7 @@ Authorization: Bearer {{token}}
 
 ### =====================================
 
-GET http://127.0.0.1:8000/api/productos?busqueda=Redmi
+GET http://127.0.0.1:8000/api/productos?busqueda=Legion
 Accept: application/json
 Authorization: Bearer {{token}}
 
@@ -95,12 +95,12 @@ Authorization: Bearer {{token}}
 {
     "categoria_id": 1,
     "sucursal_id": 1,
-    "codigo": "PROD002",
-    "nombre": "Celular Redmi Note 10 pro",
-    "descripcion": "Celular gamer",
-    "precio_compra": 1200,
-    "precio_venta": 220,
-    "stock": 20,
+    "codigo": "PROD003",
+    "nombre": "Laptop Legion 5 pro",
+    "descripcion": "Laptop gamer",
+    "precio_compra": 20000,
+    "precio_venta": 1900,
+    "stock": 1,
     "stock_minimo": 5
 }
 
