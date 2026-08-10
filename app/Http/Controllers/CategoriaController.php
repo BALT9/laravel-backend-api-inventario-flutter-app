@@ -373,7 +373,7 @@ class CategoriaController extends Controller
 
                 "nombre",
 
-                "LIKE",
+                "ILIKE",
 
                 "%" . $request->texto . "%"
 
