@@ -513,6 +513,147 @@ http://127.0.0.1:8000
 
 ---
 
+# Despliegue con Docker
+
+La aplicación se ejecuta con tres contenedores:
+
+```text
+nginx  ->  app (PHP-FPM)
+              |
+              +--> queue (worker de colas)
+              |
+              +--> PostgreSQL externo
+```
+
+PostgreSQL no se incluye en `compose.yaml`; se conecta a un servidor existente.
+
+## Requisitos
+
+* Docker Desktop o Docker Engine.
+* Docker Compose v2.
+* PostgreSQL accesible desde los contenedores.
+
+## Configuración
+
+Copiar el archivo de entorno:
+
+```bash
+cp .env.example .env
+```
+
+En Windows PowerShell:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+Configurar como mínimo:
+
+```env
+APP_KEY=base64:...
+APP_URL=http://localhost:8080
+APP_PORT=8080
+
+DB_CONNECTION=pgsql
+DB_DATABASE=database-inventario
+DB_USERNAME=postgres
+DB_PASSWORD=tu_password
+
+# PostgreSQL ejecutándose en el host de Docker
+DOCKER_DB_HOST=host.docker.internal
+
+RUN_MIGRATIONS=true
+GENERATE_SWAGGER=true
+```
+
+Si no existe `APP_KEY`, generarla en el host y copiarla al `.env`:
+
+```bash
+php artisan key:generate --show
+```
+
+En Linux, `compose.yaml` ya agrega `host.docker.internal:host-gateway` para poder alcanzar PostgreSQL desde los contenedores. Si PostgreSQL está en otro servidor, usar su host o IP en `DOCKER_DB_HOST`.
+
+Cuando PostgreSQL se ejecuta en el mismo equipo que Docker, debe escuchar en una interfaz accesible desde los contenedores y permitir conexiones desde la red de Docker en `pg_hba.conf`. En Docker Desktop normalmente funciona con `host.docker.internal`; en Linux puede ser necesario usar la IP del host o ajustar `listen_addresses` y `pg_hba.conf`.
+
+## Ejecutar en local
+
+```bash
+docker compose build --pull
+docker compose up -d
+```
+
+La API quedará disponible en:
+
+```text
+http://localhost:8080
+```
+
+Swagger:
+
+```text
+http://localhost:8080/api/documentation
+```
+
+## Producción
+
+Usar un `.env` con valores de producción:
+
+```env
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://api.tu-dominio.com
+APP_PORT=8080
+
+DOCKER_DB_HOST=postgres.tu-servidor.com
+DB_SSLMODE=require
+
+RUN_MIGRATIONS=false
+GENERATE_SWAGGER=true
+LOG_CHANNEL=stderr
+```
+
+Construir y levantar:
+
+```bash
+docker compose build --pull
+docker compose up -d
+```
+
+Ejecutar migraciones manualmente:
+
+```bash
+docker compose exec app php artisan migrate --force
+```
+
+La configuración no incluye certificados TLS. En producción se recomienda colocar el puerto `8080` detrás de un proxy inverso con HTTPS, por ejemplo Nginx, Traefik o Caddy.
+
+## Comandos útiles
+
+```bash
+docker compose ps
+docker compose logs -f app nginx queue
+docker compose exec app php artisan migrate:status
+docker compose exec app php artisan l5-swagger:generate
+docker compose exec app php artisan tinker
+docker compose restart app queue
+docker compose down
+docker compose down -v
+```
+
+`docker compose down -v` elimina también el volumen de `storage`.
+
+## Notas
+
+* El arranque espera a que PostgreSQL esté disponible.
+* Las migraciones se ejecutan automáticamente solo si `RUN_MIGRATIONS=true`.
+* Las cachés de configuración y vistas se generan en producción. No se usa `route:cache` porque las rutas contienen closures.
+* El worker de colas usa la conexión `database` configurada en el proyecto.
+* Los logs se envían a la salida estándar con `LOG_CHANNEL=stderr`.
+* Si se cambian variables de entorno en producción, reiniciar los contenedores para regenerar la caché de configuración.
+
+---
+
 # 🧪 Pruebas
 
 La API puede probarse utilizando:
@@ -587,7 +728,7 @@ La API implementa:
 ### Implementado
 
 * [x] API REST
-* [x] Laravel 12
+* [x] Laravel 13
 * [x] PostgreSQL
 * [x] Autenticación con Sanctum
 * [x] Usuarios
@@ -604,6 +745,7 @@ La API implementa:
 * [x] Filtros de movimientos
 * [x] Paginación
 * [x] Documentación Swagger/OpenAPI
+* [x] Configuración de despliegue con Docker
 
 ### Pendiente
 
@@ -612,7 +754,7 @@ La API implementa:
 * [ ] Pruebas automatizadas.
 * [ ] Mejorar manejo global de excepciones.
 * [ ] Completar documentación de todos los endpoints.
-* [ ] Preparar despliegue a producción.
+* [ ] Configurar HTTPS y proxy inverso para producción.
 
 ---
 
@@ -623,7 +765,7 @@ La API implementa:
 API REST desarrollada con:
 
 ```text
-Laravel 12
+Laravel 13
 PHP 8.4+
 PostgreSQL
 Laravel Sanctum

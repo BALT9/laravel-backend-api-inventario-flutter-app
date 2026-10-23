@@ -1,0 +1,64 @@
+name: inventario-api
+
+x-app: &app
+    build:
+        context: .
+        target: runtime
+    image: inventario-api:latest
+    restart: unless-stopped
+    env_file:
+        - .env
+    environment:
+        CONTAINER_ROLE: app
+        DB_HOST: ${DOCKER_DB_HOST:-host.docker.internal}
+        LOG_CHANNEL: stderr
+        L5_SWAGGER_USE_ABSOLUTE_PATH: "false"
+        RUN_MIGRATIONS: ${RUN_MIGRATIONS:-true}
+        GENERATE_SWAGGER: ${GENERATE_SWAGGER:-true}
+    extra_hosts:
+        - "host.docker.internal:host-gateway"
+    volumes:
+        - app-storage:/var/www/html/storage
+
+services:
+    app:
+        <<: *app
+        expose:
+            - "9000"
+
+    queue:
+        <<: *app
+        environment:
+            CONTAINER_ROLE: queue
+            DB_HOST: ${DOCKER_DB_HOST:-host.docker.internal}
+            LOG_CHANNEL: stderr
+            RUN_MIGRATIONS: "false"
+            GENERATE_SWAGGER: "false"
+        command: ["php", "artisan", "queue:work", "--sleep=3", "--tries=3", "--max-time=3600", "--timeout=90"]
+        stop_grace_period: 30s
+        depends_on:
+            app:
+                condition: service_started
+
+    nginx:
+        build:
+            context: .
+            target: nginx
+        image: inventario-api-nginx:latest
+        restart: unless-stopped
+        ports:
+            - "${APP_PORT:-8080}:80"
+        volumes:
+            - app-storage:/var/www/html/storage:ro
+        depends_on:
+            app:
+                condition: service_started
+        healthcheck:
+            test: ["CMD-SHELL", "wget -qO- http://127.0.0.1/up >/dev/null 2>&1 || exit 1"]
+            interval: 30s
+            timeout: 5s
+            retries: 3
+            start_period: 20s
+
+volumes:
+    app-storage:
