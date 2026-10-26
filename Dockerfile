@@ -1,3 +1,4 @@
+
 # syntax=docker/dockerfile:1
 
 FROM composer:2 AS vendor
@@ -31,9 +32,11 @@ FROM php:8.4-fpm-alpine AS runtime
 
 WORKDIR /var/www/html
 
-RUN apk add --no-cache libpq \
-    && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS postgresql-dev \
-    && docker-php-ext-install -j"$(nproc)" bcmath opcache pdo_pgsql \
+RUN apk add --no-cache libpq nginx supervisor \
+    && apk add --no-cache --virtual .build-deps \
+    $PHPIZE_DEPS postgresql-dev \
+    && docker-php-ext-install -j"$(nproc)" \
+    bcmath opcache pdo_pgsql \
     && apk del .build-deps
 
 COPY docker/php/php.ini /usr/local/etc/php/conf.d/99-app.ini
@@ -45,27 +48,27 @@ COPY . .
 COPY --from=assets /app/public/build ./public/build
 
 RUN mkdir -p \
-        bootstrap/cache \
-        storage/api-docs \
-        storage/app/private \
-        storage/app/public \
-        storage/framework/cache/data \
-        storage/framework/sessions \
-        storage/framework/views \
-        storage/logs \
+    bootstrap/cache \
+    storage/api-docs \
+    storage/app/private \
+    storage/app/public \
+    storage/framework/cache/data \
+    storage/framework/sessions \
+    storage/framework/views \
+    storage/logs \
+    /run/nginx \
+    /var/log/supervisor \
     && php artisan package:discover --ansi \
     && chown -R www-data:www-data bootstrap/cache storage \
     && chmod -R ug+rwX bootstrap/cache storage
 
+COPY docker/nginx/default.conf /etc/nginx/http.d/default.conf
+COPY docker/supervisord.conf /etc/supervisord.conf
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-EXPOSE 9000
+EXPOSE 10000
 
 ENTRYPOINT ["entrypoint.sh"]
-CMD ["php-fpm"]
-
-FROM nginx:1.27-alpine AS nginx
-
-COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
-COPY --from=runtime /var/www/html/public /var/www/html/public
+CMD ["supervisord", "-c", "/etc/supervisord.conf"]
